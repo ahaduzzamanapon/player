@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playing {{ channel.name }}</title>
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="mt-4">{{ channel.name }}</h1>
+            <video id="video" class="video-js vjs-default-skin" controls width="800" height="450" data-setup='{}'></video>
+        </div>
+    
+        <script>
+            const player = videojs('video');
+            const videoSrc = `/stream?url={{ channel.link | urlencode }}&channel={{ channel.name | urlencode }}`;
+            player.src({
+                src: videoSrc,
+                type: 'application/x-mpegURL'
+            });
+            player.play();
+        </script></body>
+</html>
