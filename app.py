@@ -11,12 +11,7 @@ import traceback
 app = Flask(__name__)
 
 DB_PATH = 'channels.db'
-JSON_FEEDS = [
-    'https://raw.githubusercontent.com/hasanhabibmottakin/candy/main/rest_api.json',
-    'https://raw.githubusercontent.com/hasanhabibmottakin/Z5/main/data.json'
-]
-
-
+JSON_URL = 'https://raw.githubusercontent.com/hasanhabibmottakin/candy/main/rest_api.json'
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
