@@ -6,20 +6,47 @@
     <title>Playing {{ channel.name }}</title>
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <h1 class="mt-4">{{ channel.name }}</h1>
-            <video id="video" class="video-js vjs-default-skin" controls width="800" height="450" data-setup='{}'></video>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">{{ channel.name }}</h1>
+        <video id="video" class="video-js vjs-default-skin" controls width="800" height="450" data-setup='{}'></video>
+        
+        {% if servers|length > 1 %}
+        <div class="mt-4">
+            <h3>Servers:</h3>
+            <ul class="list-group">
+                {% for server in servers %}
+                <li class="list-group-item {% if server.id == channel.id %}active{% endif %}">
+                    <a href="/play/{{ server.id }}" style="text-decoration: none; color: inherit;">
+                        {{ server.server_name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
-    
-        <script>
-            const player = videojs('video');
-            const videoSrc = `/stream?url={{ channel.link | urlencode }}&channel={{ channel.name | urlencode }}`;
-            player.src({
-                src: videoSrc,
-                type: 'application/x-mpegURL'
-            });
+        {% endif %}
+    </div>
+
+    <script>
+        const player = videojs('video');
+        const videoSrc = `/stream?url={{ channel.link | urlencode }}&channel={{ channel.name | urlencode }}&server={{ channel.id }}`;
+        player.src({
+            src: videoSrc,
+            type: 'application/x-mpegURL'
+        });
+        
+        var promise = player.play();
+
+        if (promise !== undefined) {
+          promise.then(function() {
+            // Autoplay started!
+          }).catch(function(error) {
+            // Autoplay was prevented.
+            player.muted(true);
             player.play();
-        </script></body>
+          });
+        }
+    </script>
+</body>
 </html>
