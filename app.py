@@ -11,6 +11,8 @@ app = Flask(__name__)
 DB_PATH = 'channels.db'
 JSON_URL = 'https://raw.githubusercontent.com/hasanhabibmottakin/candy/main/rest_api.json'
 
+
+
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
